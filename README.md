@@ -1,6 +1,6 @@
 # jlab-enhanced-cell-toolbar
 
-[![Extension status](https://img.shields.io/badge/status-ready-success "ready to be used")](https://jupyterlab-contrib.github.io/)
+[![Extension status](https://img.shields.io/badge/status-ready-success 'ready to be used')](https://jupyterlab-contrib.github.io/)
 [![Github Actions Status](https://github.com/jupyterlab-contrib/jlab-enhanced-cell-toolbar/workflows/Build/badge.svg)](https://github.com/jupyterlab-contrib/jlab-enhanced-cell-toolbar/actions?query=workflow%3ABuild)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab-contrib/jlab-enhanced-cell-toolbar/main?urlpath=lab/tree/Example.ipynb)
 [![npm](https://img.shields.io/npm/v/@jlab-enhanced/cell-toolbar)](https://www.npmjs.com/package/@jlab-enhanced/cell-toolbar)
@@ -82,7 +82,6 @@ For example, to obtain a cell toolbar partially overlapping the cell:
 
 ![colab_toolbar](https://raw.githubusercontent.com/jupyterlab-contrib/jlab-enhanced-cell-toolbar/main/docs/cell_toolbar_a_la_colab.png)
 
-
 Another example, to put the toolbar inside the cell:
 
 ```json
@@ -112,18 +111,18 @@ Another example, to put the toolbar inside the cell:
 
 ```json5
 {
-    "leftMenu": [
+    leftMenu: [
         {
-            "command": "notebook:run-cell",
-            "icon": "ui-components:run",
+            command: 'notebook:run-cell',
+            icon: 'ui-components:run',
             // Will only display the item on code cells.
-            "cellType": "code"
+            cellType: 'code'
         }
     ],
-    "rightMenu": [
+    rightMenu: [
         {
-            "command": "notebook:delete-cell",
-            "icon": "@jlab-enhanced/cell-toolbar:delete"
+            command: 'notebook:delete-cell',
+            icon: '@jlab-enhanced/cell-toolbar:delete'
         }
     ]
 }

@@ -11,4 +11,3 @@ project_short_description: A cell toolbar for JupyterLab.
 python_name: jlab_enhanced_cell_toolbar
 repository: https://github.com/jupyterlab-contrib/jlab-enhanced-cell-toolbar.git
 test: false
-

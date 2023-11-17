@@ -1,11 +1,7 @@
 import { VDomModel } from '@jupyterlab/apputils';
 import { ICellModel } from '@jupyterlab/cells';
-import {
-  IObservableJSON,
-  IObservableMap,
-  ObservableList
-} from '@jupyterlab/observables';
-import { ReadonlyPartialJSONValue } from '@lumino/coreutils';
+import { ObservableList } from '@jupyterlab/observables';
+import { IMapChange } from '@jupyter/ydoc';
 
 /**
  * Model handling tag lists
@@ -32,11 +28,11 @@ export class TagsModel extends VDomModel {
     this._unlockedTags = unlockedTags;
 
     // Update tag list
-    const tags: string[] = (this._model.metadata.get('tags') as string[]) || [];
+    const tags: string[] = (this._model.getMetadata('tags') as string[]) || [];
     if (tags.length > 0) {
       this._tags.pushAll(tags);
     }
-    model.metadata.changed.connect(this.onCellMetadataChanged, this);
+    model.metadataChanged.connect(this.onCellMetadataChanged, this);
     this._tags.changed.connect(this._emitStateChange, this);
   }
 
@@ -52,7 +48,7 @@ export class TagsModel extends VDomModel {
 
       // Update tag list
       const tags: string[] =
-        (this._model.metadata.get('tags') as string[]) || [];
+        (this._model.getMetadata('tags') as string[]) || [];
       if (tags.length > 0) {
         this._tags.pushAll(tags);
       }
@@ -79,12 +75,12 @@ export class TagsModel extends VDomModel {
    * @param name - The name of the tag.
    */
   addTag(name: string): void {
-    const tags = (this._model.metadata.get('tags') as string[]) || [];
+    const tags = (this._model.getMetadata('tags') as string[]) || [];
     const newTags = name
       .split(/[,\s]+/)
       .filter(tag => tag !== '' && !tags.includes(tag));
     // Update the cell metadata => tagList will be updated in metadata listener
-    this._model.metadata.set('tags', [...tags, ...newTags]);
+    this._model.setMetadata('tags', [...tags, ...newTags]);
   }
 
   /**
@@ -95,7 +91,7 @@ export class TagsModel extends VDomModel {
    * @returns A boolean representing whether it is applied.
    */
   checkApplied(name: string): boolean {
-    const tags = (this._model.metadata.get('tags') as string[]) || [];
+    const tags = (this._model.getMetadata('tags') as string[]) || [];
 
     return tags.some(tag => tag === name);
   }
@@ -108,7 +104,7 @@ export class TagsModel extends VDomModel {
       return;
     }
 
-    this._model.metadata.changed.disconnect(this.onCellMetadataChanged, this);
+    this._model.metadataChanged.disconnect(this.onCellMetadataChanged, this);
     this._tags.changed.disconnect(this._emitStateChange, this);
     super.dispose();
   }
@@ -120,7 +116,7 @@ export class TagsModel extends VDomModel {
    */
   removeTag(name: string): void {
     // Need to copy as we splice a mutable otherwise
-    const tags = [...((this._model.metadata.get('tags') as string[]) || [])];
+    const tags = [...((this._model.getMetadata('tags') as string[]) || [])];
     const idx = tags.indexOf(name);
     if (idx > -1) {
       tags.splice(idx, 1);
@@ -128,21 +124,21 @@ export class TagsModel extends VDomModel {
 
     // Update the cell metadata => tagList will be update in metadata listener
     if (tags.length === 0) {
-      this._model.metadata.delete('tags');
+      this._model.deleteMetadata('tags');
     } else {
-      this._model.metadata.set('tags', tags);
+      this._model.setMetadata('tags', tags);
     }
   }
 
   /**
    * Propagate the cell metadata changes to the shared tag list.
    *
-   * @param metadata Cell metadata
+   * @param model Cell model
    * @param changes Metadata changes
    */
   protected onCellMetadataChanged(
-    metadata: IObservableJSON,
-    changes: IObservableMap.IChangedArgs<ReadonlyPartialJSONValue | undefined>
+    model: ICellModel,
+    changes: IMapChange<any>
   ): void {
     if (changes.key === 'tags') {
       const oldTags = [...new Set((changes.oldValue as string[]) || [])];

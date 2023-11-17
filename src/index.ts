@@ -19,7 +19,7 @@ import { Widget } from '@lumino/widgets';
 import { AttachmentsEditor, AttachmentsTool } from './attachmentseditor';
 import { AttributeEditor } from './attributeeditor';
 import { CellBarExtension, DEFAULT_TOOLBAR } from './celltoolbartracker';
-import { CellMetadataEditor } from './metadataeditor';
+// import { CellMetadataEditor } from './metadataeditor';
 import { TagTool } from './tagbar';
 import { TagsModel } from './tagsmodel';
 import { CellToolbar, EXTENSION_ID, FACTORY_NAME } from './tokens';
@@ -77,7 +77,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     const trans = (translator ?? nullTranslator).load('cell-toolbar');
 
     // Register specific toolbar items
-    toolbarRegistry.registerFactory(
+    toolbarRegistry.addFactory(
       FACTORY_NAME,
       CellToolbar.ViewItems.TAGS,
       (cell: Widget) => {
@@ -128,13 +128,13 @@ const extension: JupyterFrontEndPlugin<void> = {
             }
           });
 
-          toolbarRegistry.registerFactory(
+          toolbarRegistry.addFactory(
             FACTORY_NAME,
             CellToolbar.ViewItems.RAW_FORMAT,
             (cell: Widget) => {
               if ((cell as Cell).model.type === 'raw') {
                 const w = new AttributeEditor({
-                  metadata: (cell as Cell).model.metadata,
+                  model: (cell as Cell).model,
                   keys: ['raw_mimetype', 'format'],
                   label: trans.__('Raw NBConvert Format'),
                   values: optionValueArray,
@@ -156,13 +156,13 @@ const extension: JupyterFrontEndPlugin<void> = {
         }
       })
       .catch(() => {
-        toolbarRegistry.registerFactory(
+        toolbarRegistry.addFactory(
           FACTORY_NAME,
           CellToolbar.ViewItems.RAW_FORMAT,
           (cell: Widget) => {
             if ((cell as Cell).model.type === 'raw') {
               const w = new AttributeEditor({
-                metadata: (cell as Cell).model.metadata,
+                model: (cell as Cell).model,
                 keys: ['raw_mimetype', 'format'],
                 label: trans.__('Raw NBConvert Format'),
                 values: [
@@ -187,12 +187,12 @@ const extension: JupyterFrontEndPlugin<void> = {
         );
       });
 
-    toolbarRegistry.registerFactory(
+    toolbarRegistry.addFactory(
       FACTORY_NAME,
       CellToolbar.ViewItems.SLIDESHOW,
       (cell: Widget) => {
         const w = new AttributeEditor({
-          metadata: (cell as Cell).model.metadata,
+          model: (cell as Cell).model,
           keys: ['slideshow/slide_type'],
           label: trans.__('Slide Type'),
           values: [
@@ -209,7 +209,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       }
     );
 
-    toolbarRegistry.registerFactory(
+    toolbarRegistry.addFactory(
       FACTORY_NAME,
       CellToolbar.ViewItems.ATTACHMENTS,
       (cell: Widget) => {
@@ -234,30 +234,31 @@ const extension: JupyterFrontEndPlugin<void> = {
       }
     );
 
-    if (editorServices) {
-      toolbarRegistry.registerFactory(
-        FACTORY_NAME,
-        CellToolbar.ViewItems.METADATA,
-        (cell: Widget) =>
-          new ToolbarButton({
-            label: trans.__('Edit Metadata…'),
-            actualOnClick: true,
-            onClick: async (): Promise<void> => {
-              const body = new CellMetadataEditor(
-                (cell as Cell).model.metadata,
-                editorServices.factoryService.newInlineEditor,
-                translator ?? nullTranslator
-              );
-              body.addClass('jp-cell-enh-metadata-editor');
-              await showDialog({
-                title: trans.__('Edit Cell Metadata'),
-                body,
-                buttons: [Dialog.okButton({ label: trans.__('Close') })]
-              });
-            }
-          })
-      );
-    }
+    // if (editorServices) {
+    //   toolbarRegistry.addFactory(
+    //     FACTORY_NAME,
+    //     CellToolbar.ViewItems.METADATA,
+    //     (cell: Widget) =>
+    //       new ToolbarButton({
+    //         label: trans.__('Edit Metadata…'),
+    //         actualOnClick: true,
+    //         onClick: async (): Promise<void> => {
+    //           const body = new CellMetadataEditor(
+    //             (cell as Cell).model.metadata,
+    //             editorServices.factoryService.newInlineEditor,
+    //             translator ?? nullTranslator
+    //           );
+    //           body.addClass('jp-cell-enh-metadata-editor');
+    //           await showDialog({
+    //             title: trans.__('Edit Cell Metadata'),
+    //             body,
+    //             buttons: [Dialog.okButton({ label: trans.__('Close') })]
+    //           });
+    //         }
+    //       })
+    //   );
+    // }
+    // TODO: replace the Observable JSON editor
 
     // Add the widget extension
     let notebookExtension: CellBarExtension;

@@ -20,8 +20,8 @@ import { AttachmentsEditor, AttachmentsTool } from './attachmentseditor';
 import { AttributeEditor } from './attributeeditor';
 import { CellBarExtension, DEFAULT_TOOLBAR } from './celltoolbartracker';
 // import { CellMetadataEditor } from './metadataeditor';
-import { TagTool } from './tagbar';
-import { TagsModel } from './tagsmodel';
+// import { TagTool } from './tagbar';
+// import { TagsModel } from './tagsmodel';
 import { CellToolbar, EXTENSION_ID, FACTORY_NAME } from './tokens';
 
 const DEFAULT_TOOLBAR_ITEM_RANK = 50;
@@ -77,18 +77,18 @@ const extension: JupyterFrontEndPlugin<void> = {
     const trans = (translator ?? nullTranslator).load('cell-toolbar');
 
     // Register specific toolbar items
-    toolbarRegistry.addFactory(
-      FACTORY_NAME,
-      CellToolbar.ViewItems.TAGS,
-      (cell: Widget) => {
-        const model = new TagsModel((cell as Cell).model);
-        const widget = new TagTool(model);
-        widget.disposed.connect(() => {
-          model.dispose();
-        });
-        return widget;
-      }
-    );
+    // toolbarRegistry.addFactory(
+    //   FACTORY_NAME,
+    //   CellToolbar.ViewItems.TAGS,
+    //   (cell: Widget) => {
+    //     const model = new TagsModel((cell as Cell).model);
+    //     const widget = new TagTool(model);
+    //     widget.disposed.connect(() => {
+    //       model.dispose();
+    //     });
+    //     return widget;
+    //   }
+    // );
 
     // Extract the list from nbconvert service as in @jupyterlab/notebook-extension
     app.serviceManager.nbconvert

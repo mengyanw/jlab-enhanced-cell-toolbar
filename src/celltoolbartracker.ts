@@ -12,7 +12,7 @@ import { ISignal, Signal } from '@lumino/signaling';
 import { PanelLayout, Widget } from '@lumino/widgets';
 import { CellToolbar as CellToolbarWidget } from './celltoolbarwidget';
 import { PositionedButton } from './positionedbutton';
-import { TagTool } from './tagbar';
+// import { TagTool } from './tagbar';
 import { CellToolbar, FACTORY_NAME } from './tokens';
 
 const DEFAULT_HELPER_BUTTONS: CellToolbar.IButton[] = [
@@ -354,9 +354,10 @@ export class CellToolbarTracker implements IDisposable {
                 (itemType && itemType !== cellType)
               ) {
                 item.widget.hide();
-              } else if (item.name === CellToolbar.ViewItems.TAGS) {
-                (item.widget as TagTool).model.tags = this._allTags;
-              }
+              } 
+              // else if (item.name === CellToolbar.ViewItems.TAGS) {
+              //   (item.widget as TagTool).model.tags = this._allTags;
+              // }
 
               toolbar.insertItem(
                 changes.newIndex + index,
@@ -399,9 +400,10 @@ export class CellToolbarTracker implements IDisposable {
               const itemType = this.configuration.cellType[item.name];
               if (itemType && itemType !== cellType) {
                 item.widget.hide();
-              } else if (item.name === CellToolbar.ViewItems.TAGS) {
-                (item.widget as TagTool).model.tags = this._allTags;
-              }
+              } 
+              // else if (item.name === CellToolbar.ViewItems.TAGS) {
+              //   (item.widget as TagTool).model.tags = this._allTags;
+              // }
 
               toolbar.insertItem(
                 changes.newIndex + index,

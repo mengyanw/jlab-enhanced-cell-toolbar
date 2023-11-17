@@ -4,12 +4,6 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { CellList, NotebookPanel } from '@jupyterlab/notebook';
 import { IObservableList, ObservableList } from '@jupyterlab/observables';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
-import {
-  addIcon,
-  caretDownEmptyThinIcon,
-  caretUpEmptyThinIcon,
-  runIcon
-} from '@jupyterlab/ui-components';
 import { findIndex, toArray } from '@lumino/algorithm';
 import { CommandRegistry } from '@lumino/commands';
 import { JSONExt } from '@lumino/coreutils';
@@ -25,19 +19,19 @@ const DEFAULT_HELPER_BUTTONS: CellToolbar.IButton[] = [
   // Originate from @jupyterlab/notebook-extension
   {
     command: 'notebook:run-cell-and-select-next',
-    icon: runIcon
+    icon: 'ui-components:run'
   },
   {
     command: 'notebook:move-cell-up',
-    icon: caretUpEmptyThinIcon
+    icon: 'ui-components:caret-up-empty-thin'
   },
   {
     command: 'notebook:move-cell-down',
-    icon: caretDownEmptyThinIcon
+    icon: 'ui-components:caret-down-empty-thin'
   },
   {
     command: 'notebook:insert-cell-below',
-    icon: addIcon
+    icon: 'ui-components:add'
   }
 ];
 

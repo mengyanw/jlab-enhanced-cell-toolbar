@@ -1,5 +1,3 @@
-import { LabIcon } from '@jupyterlab/ui-components';
-
 export const EXTENSION_ID = '@jlab-enhanced/cell-toolbar';
 
 export const FACTORY_NAME = 'Cell';
@@ -41,7 +39,7 @@ export namespace CellToolbar {
     /**
      * Icon for the item
      */
-    icon: LabIcon | string;
+    icon: string;
     /**
      * Icon tooltip
      */

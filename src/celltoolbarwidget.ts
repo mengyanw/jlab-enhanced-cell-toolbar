@@ -1,4 +1,4 @@
-import { find, IIterator, map } from '@lumino/algorithm';
+import { find, map } from '@lumino/algorithm';
 import { Message } from '@lumino/messaging';
 import { AttachedProperty } from '@lumino/properties';
 import { PanelLayout, Widget } from '@lumino/widgets';
@@ -43,7 +43,7 @@ export class CellToolbar extends Widget {
    *
    * @returns An iterator over the toolbar item names.
    */
-  names(): IIterator<string> {
+  names(): IterableIterator<string> {
     const layout = this.layout as PanelLayout;
     return map(layout.widgets, widget => {
       return Private.nameProperty.get(widget);

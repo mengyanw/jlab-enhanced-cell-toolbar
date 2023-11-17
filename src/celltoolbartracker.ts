@@ -1,12 +1,8 @@
 import { IToolbarWidgetRegistry, ToolbarRegistry } from '@jupyterlab/apputils';
 import { Cell, ICellModel } from '@jupyterlab/cells';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
-import { NotebookPanel } from '@jupyterlab/notebook';
-import {
-  IObservableList,
-  IObservableUndoableList,
-  ObservableList
-} from '@jupyterlab/observables';
+import { CellList, NotebookPanel } from '@jupyterlab/notebook';
+import { IObservableList, ObservableList } from '@jupyterlab/observables';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import {
   addIcon,
@@ -14,7 +10,7 @@ import {
   caretUpEmptyThinIcon,
   runIcon
 } from '@jupyterlab/ui-components';
-import { each, findIndex, toArray } from '@lumino/algorithm';
+import { findIndex, toArray } from '@lumino/algorithm';
 import { CommandRegistry } from '@lumino/commands';
 import { JSONExt } from '@lumino/coreutils';
 import { IDisposable } from '@lumino/disposable';
@@ -198,9 +194,13 @@ export class CellToolbarTracker implements IDisposable {
       const cells = this.panel.context.model.cells;
       if (cells) {
         if (this._isActive) {
-          each(cells.iter(), model => this._addToolbar(model));
+          for (const cell of cells) {
+            this._addToolbar(cell);
+          }
         } else {
-          each(cells.iter(), model => this._removeToolbar(model));
+          for (const cell of cells) {
+            this._removeToolbar(cell);
+          }
         }
       }
     }
@@ -226,7 +226,9 @@ export class CellToolbarTracker implements IDisposable {
     const cells = this.panel?.context.model.cells;
     if (cells) {
       cells.changed.disconnect(this.updateConnectedCells, this);
-      each(cells.iter(), model => this._removeToolbar(model));
+      for (const cell of cells) {
+        this._removeToolbar(cell);
+      }
     }
 
     // this.panel?.context.fileChanged.disconnect(this._onFileChanged);
@@ -257,7 +259,7 @@ export class CellToolbarTracker implements IDisposable {
    * @param changed Modification of the list
    */
   updateConnectedCells(
-    cells: IObservableUndoableList<ICellModel>,
+    cells: CellList,
     changed: IObservableList.IChangedArgs<ICellModel>
   ): void {
     if (this.isActive) {
@@ -460,10 +462,10 @@ export class CellToolbarTracker implements IDisposable {
 
     // Reset toolbar when settings changes
     if (this.panel?.context.model.cells) {
-      each(this.panel?.context.model.cells.iter(), model => {
-        this._removeToolbar(model);
-        this._addToolbar(model);
-      });
+      for (const cell of this.panel?.context.model.cells) {
+        this._removeToolbar(cell);
+        this._addToolbar(cell);
+      }
     }
 
     // Update tags

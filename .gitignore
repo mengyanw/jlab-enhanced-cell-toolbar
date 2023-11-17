@@ -1,12 +1,15 @@
 *.bundle.*
 lib/
 node_modules/
+*.log
+.eslintcache
+.stylelintcache
 *.egg-info/
 .ipynb_checkpoints
 *.tsbuildinfo
-*.log
-.vscode/
 jlab_enhanced_cell_toolbar/labextension
+# Version file is handled by hatchling
+jlab_enhanced_cell_toolbar/_version.py
 
 # Created by https://www.gitignore.io/api/python
 # Edit at https://www.gitignore.io/?templates=python
@@ -58,6 +61,7 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
+coverage/
 coverage.xml
 *.cover
 .hypothesis/
@@ -112,3 +116,8 @@ dmypy.json
 
 # OSX files
 .DS_Store
+
+# Yarn cache
+.yarn/
+
+_temp_extension

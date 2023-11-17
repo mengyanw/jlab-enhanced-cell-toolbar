@@ -1,4 +1,4 @@
-# a mybinder.org-ready environment for demoing jlab-enhanced-cell-toolbar
+# a mybinder.org-ready environment for demoing jlab_enhanced_cell_toolbar
 # this environment may also be used locally on Linux/MacOS/Windows, e.g.
 #
 #   conda env update --file binder/environment.yml
@@ -11,11 +11,11 @@ channels:
 
 dependencies:
   # runtime dependencies
-  - python >=3.8,<3.10.0
-  - jupyterlab >=3.4.0,<4.0.0a0
+  - python >=3.10,<3.11.0a0
+  - jupyterlab >=4.0.0,<5
   # labextension build dependencies
-  - nodejs >=14,<17
+  - nodejs >=18,<19
   - pip
   - wheel
-  # Dependencies
-  - packaging
+  # additional packages for demos
+  # - ipywidgets
